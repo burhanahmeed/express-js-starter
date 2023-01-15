@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import { sequelize } from './src/models'
+import router from './src/routes';
 
 const app: Express = express();
 const port = process.env.PORT;
@@ -11,6 +12,8 @@ const port = process.env.PORT;
 app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server');
 });
+
+app.use(router);
 
 sequelize.authenticate()
   .then(() => {
