@@ -11,15 +11,18 @@ export default (sequelize: any, DataTypes: any) => {
       // define association here
     }
   }
-  User.init({
-    firstName: DataTypes.STRING,
-    lastName: DataTypes.STRING,
-    email: DataTypes.STRING
-  }, {
-    sequelize,
-    timestamps: true,
-    freezeTableName: true,
-    tableName: 'users_12345'
-  });
+  User.init(
+    {
+      firstName: DataTypes.STRING,
+      lastName: DataTypes.STRING,
+      email: DataTypes.STRING,
+    },
+    {
+      sequelize,
+      timestamps: true,
+      freezeTableName: true,
+      tableName: 'users_12345',
+    }
+  );
   return User;
 };

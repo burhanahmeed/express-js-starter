@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-import { sequelize } from './src/models'
+import { sequelize } from './src/models';
 import router from './src/routes';
 
 const app: Express = express();
@@ -15,13 +15,14 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use(router);
 
-sequelize.authenticate()
+sequelize
+  .authenticate()
   .then(() => {
     console.log('Connection has been established successfully.');
   })
   .catch((err: any) => {
     console.error('Unable to connect to the database:', err);
-  })
+  });
 
 app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);

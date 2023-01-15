@@ -9,7 +9,7 @@ export default {
     port: 3306,
     dialect: 'mysql',
     migrationStorageTableName: 'sequelize_meta',
-    seederStorageTableName: 'sequelize_data'
+    seederStorageTableName: 'sequelize_data',
   },
   production: {
     username: process.env.DB_USER,
@@ -19,6 +19,6 @@ export default {
     port: 3306,
     dialect: 'mysql',
     migrationStorageTableName: 'sequelize_meta',
-    seederStorageTableName: 'sequelize_data'
-  }
+    seederStorageTableName: 'sequelize_data',
+  },
 };
