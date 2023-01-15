@@ -1,7 +1,7 @@
 import { Model } from 'sequelize';
 
 export default (sequelize: any, DataTypes: any) => {
-  class User extends Model {
+  class Role extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,26 +11,16 @@ export default (sequelize: any, DataTypes: any) => {
       // define association here
     }
   }
-  User.init(
+  Role.init(
     {
       name: DataTypes.STRING,
-      username: {
-        type: DataTypes.STRING,
-        unique: true,
-      },
-      email: {
-        type: DataTypes.STRING,
-        unique: true,
-      },
-      password: DataTypes.STRING,
-      role_id: DataTypes.INTEGER,
     },
     {
       sequelize,
       timestamps: true,
       freezeTableName: true,
-      tableName: 'users',
+      tableName: 'roles',
     }
   );
-  return User;
+  return Role;
 };
