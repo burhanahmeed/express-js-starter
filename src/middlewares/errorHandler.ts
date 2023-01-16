@@ -1,4 +1,4 @@
-import { Response, NextFunction } from 'express'
+import { Response, NextFunction } from 'express';
 import ApiError from '../utils/apiError';
 
 export default async (err: any, req: any, res: Response, _next: NextFunction) => {
@@ -12,9 +12,12 @@ export default async (err: any, req: any, res: Response, _next: NextFunction) =>
   }
 
   const standardResponse = {
-    error: err instanceof ApiError ? err.toExternalResponse() : { ...err, message: err.message },
+    error:
+      err instanceof ApiError
+        ? err.toExternalResponse()
+        : { ...err, message: err.message },
   };
 
   // additional checking for unit test
   return res.status ? res.status(err.status || 500).send(standardResponse) : res;
-}
+};

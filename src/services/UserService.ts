@@ -5,7 +5,7 @@ export default class UserService {
   private user: ModelStatic<any>;
 
   constructor() {
-    this.user = db.User
+    this.user = db.User;
   }
 
   public async getById(id: number) {
@@ -13,19 +13,19 @@ export default class UserService {
       where: { id },
       attributes: { exclude: ['password'] },
       include: ['role'],
-    })
+    });
   }
 
-  public async getByEmailOrUsername(value: string, opts: { withPassword?: boolean } = {}) {
+  public async getByEmailOrUsername(
+    value: string,
+    opts: { withPassword?: boolean } = {}
+  ) {
     const options: any = {
       where: {
-        [Op.or]: [
-          { email: value },
-          { username: value },
-        ]
+        [Op.or]: [{ email: value }, { username: value }],
       },
       include: ['role'],
-      attibutes: { exclude: ['password'] }
+      attibutes: { exclude: ['password'] },
     };
 
     if (opts.withPassword) {
@@ -35,11 +35,7 @@ export default class UserService {
     return this.user.findOne(options);
   }
 
-  public listWithPagination(opts: {
-    search?: string,
-    page?: number,
-    size?: number,
-  }) {
+  public listWithPagination(opts: { search?: string; page?: number; size?: number }) {
     const where = {};
     if (opts.search) {
       Object.assign(where, {
@@ -47,16 +43,16 @@ export default class UserService {
           { email: { [Op.like]: `%${opts.search}%` } },
           { username: { [Op.like]: `%${opts.search}%` } },
           { name: { [Op.like]: `%${opts.search}%` } },
-        ]
-      })
+        ],
+      });
     }
 
     return this.user.findAndCountAll({
       where,
       limit: opts.size,
-      offset: opts.page && opts.size ? ((opts.page - 1) * opts.size) : 0,
-      include: ['role']
-    })
+      offset: opts.page && opts.size ? (opts.page - 1) * opts.size : 0,
+      include: ['role'],
+    });
   }
 
   public create(payload: any) {
@@ -65,13 +61,11 @@ export default class UserService {
 
   public update(id: number, payload: any) {
     return this.user.update(payload, {
-      where: { id }
+      where: { id },
     });
   }
 
-  public delete() {
-    
-  }
+  public delete() {}
 }
 
 export const Users = new UserService();

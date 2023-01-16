@@ -34,8 +34,7 @@ export const checkUser = async (req: Request, res: Response, next: NextFunction)
     res.locals.role = user.role.name;
 
     next();
-
   } catch (error) {
     next(error);
   }
-}
+};

@@ -3,10 +3,9 @@ export default class BaseController {
     const { count: totalItems, rows } = data;
     const currentPage = page ? +page : 0;
     const totalPages = Math.ceil(totalItems / limit);
-  
+
     return { totalItems, data: rows, totalPages, currentPage };
-  };
-  
+  }
 }
 
 export const Base = new BaseController();

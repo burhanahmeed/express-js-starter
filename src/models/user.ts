@@ -12,7 +12,7 @@ const model = (sequelize: any, DataTypes: any) => {
       User.belongsTo(models.Role, {
         foreignKey: 'role_id',
         as: 'role',
-      })
+      });
     }
   }
   User.init(

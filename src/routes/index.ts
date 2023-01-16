@@ -1,6 +1,6 @@
 import express from 'express';
-import userRoutes from './users'
-import errHandler from '../middlewares/errorHandler'
+import userRoutes from './users';
+import errHandler from '../middlewares/errorHandler';
 
 const router = express.Router();
 

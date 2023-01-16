@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express';
 import BaseController from './BaseController';
 import { Users } from '../services/UserService';
 import jwt from 'jsonwebtoken';
@@ -9,12 +9,12 @@ export default class UserController extends BaseController {
   public static async get(req: Request, res: Response, next: NextFunction) {
     try {
       const { id }: any = req.params;
-      const resp = await Users.getById(id)
+      const resp = await Users.getById(id);
 
       res.json({
         status: 'success',
-        data: resp
-      })
+        data: resp,
+      });
     } catch (error: any) {
       next(error);
     }
@@ -24,15 +24,17 @@ export default class UserController extends BaseController {
     try {
       const { page, size, search }: any = req.query;
       const resp = await Users.listWithPagination({
-        search, page, size
-      })
+        search,
+        page,
+        size,
+      });
 
-      const result = UserController.getPagingData(resp, (page || 1), (size || 25));
+      const result = UserController.getPagingData(resp, page || 1, size || 25);
 
       res.json({
         status: 'success',
-        ...result
-      })
+        ...result,
+      });
     } catch (error: any) {
       next(error);
     }
@@ -44,8 +46,8 @@ export default class UserController extends BaseController {
 
       res.json({
         status: 'success',
-        data: resp
-      })
+        data: resp,
+      });
     } catch (error: any) {
       next(error);
     }
@@ -57,21 +59,19 @@ export default class UserController extends BaseController {
 
       res.json({
         status: 'success',
-        data: resp
-      })
+        data: resp,
+      });
     } catch (error: any) {
       next(error);
     }
   }
 
-  public static async delete(req: Request, res: Response) {
-
-  }
+  public static async delete(req: Request, res: Response) {}
 
   public static async auth(req: Request, res: Response, next: NextFunction) {
-     try {
+    try {
       const resp = await Users.getByEmailOrUsername(req.body.username, {
-        withPassword: true
+        withPassword: true,
       });
 
       if (!resp) {
@@ -92,16 +92,16 @@ export default class UserController extends BaseController {
         role_id: resp.role_id,
         role_name: resp.role.name,
       };
-      
+
       const token = jwt.sign(data, JWT_KEY, { expiresIn: 9999999999 });
 
       res.json({
         status: 'success',
         data: {
           token,
-          ...data
-        }
-      })
+          ...data,
+        },
+      });
     } catch (error) {
       next(error);
     }
@@ -113,23 +113,23 @@ export default class UserController extends BaseController {
 
       res.json({
         status: 'success',
-        data: resp
-      })
+        data: resp,
+      });
     } catch (error: any) {
       next(error);
     }
   }
 
   public static async updatePassword(req: Request, res: Response, next: NextFunction) {
-     try {
+    try {
       const resp = await Users.update(Number(req.params.id), {
-        password: req.body.password
+        password: req.body.password,
       });
 
       res.json({
         status: 'success',
-        data: resp
-      })
+        data: resp,
+      });
     } catch (error: any) {
       next(error);
     }

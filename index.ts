@@ -11,10 +11,10 @@ const app: Express = express();
 const port = process.env.PORT;
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Express + TypeScript Server');
