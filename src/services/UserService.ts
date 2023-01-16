@@ -11,20 +11,28 @@ export default class UserService {
   public async getById(id: number) {
     return this.user.findOne({
       where: { id },
-      include: ['role']
+      attributes: { exclude: ['password'] },
+      include: ['role'],
     })
   }
 
-  public async getByEmailOrUsername(value: string) {
-    return this.user.findOne({
+  public async getByEmailOrUsername(value: string, opts: { withPassword?: boolean } = {}) {
+    const options: any = {
       where: {
         [Op.or]: [
           { email: value },
           { username: value },
         ]
       },
-      include: ['role']
-    })
+      include: ['role'],
+      attibutes: { exclude: ['password'] }
+    };
+
+    if (opts.withPassword) {
+      delete options.attibutes;
+    }
+
+    return this.user.findOne(options);
   }
 
   public listWithPagination(opts: {
