@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt';
 import { JWT_KEY } from '../constants/auth';
 
 export default class UserController extends BaseController {
-  public static async get(req: Request, res: Response) {
+  public static async get(req: Request, res: Response, next: NextFunction) {
     try {
       const { id }: any = req.params;
       const resp = await Users.getById(id)
@@ -16,14 +16,11 @@ export default class UserController extends BaseController {
         data: resp
       })
     } catch (error: any) {
-      res.status(error.status || 500).json({
-        status: 'error',
-        error
-      })
+      next(error);
     }
   }
 
-  public static async list(req: Request, res: Response) {
+  public static async list(req: Request, res: Response, next: NextFunction) {
     try {
       const { page, size, search }: any = req.query;
       const resp = await Users.listWithPagination({
@@ -37,15 +34,11 @@ export default class UserController extends BaseController {
         ...result
       })
     } catch (error: any) {
-      console.log(error);
-      res.status(error.status || 500).json({
-        status: 'error',
-        error: error.toString()
-      })
+      next(error);
     }
   }
 
-  public static async create(req: Request, res: Response) {
+  public static async create(req: Request, res: Response, next: NextFunction) {
     try {
       const resp = await Users.create(req.body);
 
@@ -54,15 +47,11 @@ export default class UserController extends BaseController {
         data: resp
       })
     } catch (error: any) {
-      console.log(error);
-      res.status(error.status || 500).json({
-        status: 'error',
-        error: error.toString()
-      })
+      next(error);
     }
   }
 
-  public static async update(req: Request, res: Response) {
+  public static async update(req: Request, res: Response, next: NextFunction) {
     try {
       const resp = await Users.update(Number(req.params.id), req.body);
 
@@ -71,11 +60,7 @@ export default class UserController extends BaseController {
         data: resp
       })
     } catch (error: any) {
-      console.log(error);
-      res.status(error.status || 500).json({
-        status: 'error',
-        error: error.toString()
-      })
+      next(error);
     }
   }
 
