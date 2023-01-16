@@ -28,6 +28,10 @@ module.exports = {
       role_id: {
         type: Sequelize.INTEGER,
       },
+      is_active: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: true,
+      },
       createdAt: {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),

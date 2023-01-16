@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'
+import { NextFunction, Request, Response } from 'express'
 import BaseController from './BaseController';
 import { Users } from '../services/UserService';
 import jwt from 'jsonwebtoken';
@@ -83,7 +83,7 @@ export default class UserController extends BaseController {
 
   }
 
-  public static async auth(req: Request, res: Response) {
+  public static async auth(req: Request, res: Response, next: NextFunction) {
      try {
       const resp = await Users.getByEmailOrUsername(req.body.username, {
         withPassword: true
@@ -99,41 +99,43 @@ export default class UserController extends BaseController {
         throw new Error('Username, email, atau password salah');
       }
 
-      const token = jwt.sign(resp, JWT_KEY, { expiresIn: 9999999999 });
+      const data = {
+        id: resp.id,
+        name: resp.name,
+        username: resp.username,
+        email: resp.email,
+        role_id: resp.role_id,
+        role_name: resp.role.name,
+      };
+      
+      const token = jwt.sign(data, JWT_KEY, { expiresIn: 9999999999 });
 
       res.json({
         status: 'success',
         data: {
           token,
-          ...resp
+          ...data
         }
       })
-    } catch (error: any) {
-      res.status(error.status || 500).json({
-        status: 'error',
-        error: error.toString()
-      })
+    } catch (error) {
+      next(error);
     }
   }
 
-  public static async me(req: Request, res: Response) {
+  public static async me(_req: Request, res: Response, next: NextFunction) {
     try {
-      const resp = await Users.update(Number(req.params.id), req.body);
+      const resp = await Users.getById(Number(res.locals.user.id));
 
       res.json({
         status: 'success',
         data: resp
       })
     } catch (error: any) {
-      console.log(error);
-      res.status(error.status || 500).json({
-        status: 'error',
-        error: error.toString()
-      })
+      next(error);
     }
   }
 
-  public static async updatePassword(req: Request, res: Response) {
+  public static async updatePassword(req: Request, res: Response, next: NextFunction) {
      try {
       const resp = await Users.update(Number(req.params.id), {
         password: req.body.password
@@ -144,11 +146,7 @@ export default class UserController extends BaseController {
         data: resp
       })
     } catch (error: any) {
-      console.log(error);
-      res.status(error.status || 500).json({
-        status: 'error',
-        error: error.toString()
-      })
+      next(error);
     }
   }
 }

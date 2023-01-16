@@ -28,6 +28,7 @@ const model = (sequelize: any, DataTypes: any) => {
       },
       password: DataTypes.STRING,
       role_id: DataTypes.INTEGER,
+      is_active: DataTypes.BOOLEAN,
     },
     {
       sequelize,
