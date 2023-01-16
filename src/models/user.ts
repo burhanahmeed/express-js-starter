@@ -1,6 +1,6 @@
 import { Model } from 'sequelize';
 
-export default (sequelize: any, DataTypes: any) => {
+const model = (sequelize: any, DataTypes: any) => {
   class User extends Model {
     /**
      * Helper method for defining associations.
@@ -9,6 +9,10 @@ export default (sequelize: any, DataTypes: any) => {
      */
     static associate(models: any) {
       // define association here
+      User.belongsTo(models.Role, {
+        foreignKey: 'role_id',
+        as: 'role',
+      })
     }
   }
   User.init(
@@ -34,3 +38,5 @@ export default (sequelize: any, DataTypes: any) => {
   );
   return User;
 };
+
+export = model;

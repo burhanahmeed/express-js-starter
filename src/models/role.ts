@@ -1,6 +1,6 @@
 import { Model } from 'sequelize';
 
-export default (sequelize: any, DataTypes: any) => {
+const model = (sequelize: any, DataTypes: any) => {
   class Role extends Model {
     /**
      * Helper method for defining associations.
@@ -24,3 +24,5 @@ export default (sequelize: any, DataTypes: any) => {
   );
   return Role;
 };
+
+export = model;

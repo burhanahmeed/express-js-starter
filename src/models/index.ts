@@ -34,13 +34,14 @@ const createModels = () => {
   const filenames = fs.readdirSync(__dirname).filter((file: string) => {
     return (
       // filter out the current `index.ts` file
-      file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.ts'
+      file.indexOf('.') !== 0 && file !== basename && file !== 'index.js'
     );
   });
 
   filenames.map((file: any) => {
     // use `require` to load our models
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+
     db[model.name] = model;
   });
 

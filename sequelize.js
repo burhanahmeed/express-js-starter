@@ -10,11 +10,11 @@ module.exports = {
     dialect: 'mysql',
     migrationStorageTableName: 'sequelize_meta',
     // Use a different storage. Default: none
-    "seederStorage": "sequelize",
+    seederStorage: 'sequelize',
     // Use a different file name. Default: sequelize-data.json
-    "seederStoragePath": "sequelizeData.json",
+    seederStoragePath: 'sequelizeData.json',
     // Use a different table name. Default: SequelizeData
-    "seederStorageTableName": "sequelize_data"
+    seederStorageTableName: 'sequelize_data',
   },
   production: {
     username: process.env.DB_USER,
@@ -24,11 +24,11 @@ module.exports = {
     port: 3306,
     dialect: 'mysql',
     migrationStorageTableName: 'sequelize_meta',
-        // Use a different storage. Default: none
-        "seederStorage": "sequelize",
-        // Use a different file name. Default: sequelize-data.json
-        "seederStoragePath": "sequelizeData.json",
-        // Use a different table name. Default: SequelizeData
-        "seederStorageTableName": "sequelize_data"
+    // Use a different storage. Default: none
+    seederStorage: 'sequelize',
+    // Use a different file name. Default: sequelize-data.json
+    seederStoragePath: 'sequelizeData.json',
+    // Use a different table name. Default: SequelizeData
+    seederStorageTableName: 'sequelize_data',
   },
 };
