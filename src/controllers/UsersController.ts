@@ -3,6 +3,7 @@ import BaseController from './BaseController';
 import { Users } from '../services/UserService';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import Validator from 'validatorjs';
 import { JWT_KEY } from '../constants/auth';
 
 export default class UserController extends BaseController {
@@ -42,7 +43,17 @@ export default class UserController extends BaseController {
 
   public static async create(req: Request, res: Response, next: NextFunction) {
     try {
-      const resp = await Users.create(req.body);
+      UserController.validateForm(req.body, {
+        name: 'required',
+        username: 'required',
+        password: 'required|min:4',
+        role_id: 'required',
+      });
+
+      const resp = await Users.create({
+        ...req.body,
+        password: bcrypt.hashSync(req.body.password, 10),
+      });
 
       res.json({
         status: 'success',
@@ -55,7 +66,10 @@ export default class UserController extends BaseController {
 
   public static async update(req: Request, res: Response, next: NextFunction) {
     try {
-      const resp = await Users.update(Number(req.params.id), req.body);
+      const body = { ...req.body };
+      delete body.password;
+
+      const resp = await Users.update(Number(req.params.id), body);
 
       res.json({
         status: 'success',
@@ -123,7 +137,7 @@ export default class UserController extends BaseController {
   public static async updatePassword(req: Request, res: Response, next: NextFunction) {
     try {
       const resp = await Users.update(Number(req.params.id), {
-        password: req.body.password,
+        password: bcrypt.hashSync(req.body.password, 10),
       });
 
       res.json({
@@ -133,5 +147,14 @@ export default class UserController extends BaseController {
     } catch (error: any) {
       next(error);
     }
+  }
+
+  private static validateForm(data: any, rules: any) {
+    const validation = new Validator(data, rules);
+    if (validation.fails()) {
+      throw validation.errors;
+    }
+
+    return true;
   }
 }
