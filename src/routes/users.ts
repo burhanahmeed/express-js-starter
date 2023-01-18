@@ -1,5 +1,6 @@
 import express from 'express';
 import user from '../controllers/UsersController';
+import role from '../controllers/RolesController';
 import { checkUser } from '../middlewares/authentication';
 
 const router = express.Router();
@@ -9,6 +10,7 @@ router.post('/auth', user.auth);
 // middleware check
 router.use(checkUser);
 
+router.get('/roles', role.list);
 router.get('/me', user.me);
 router.get('/:id', user.get);
 router.get('/', user.list);
