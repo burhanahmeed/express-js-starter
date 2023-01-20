@@ -23,6 +23,8 @@ export default class UserController extends BaseController {
 
   public static async list(req: Request, res: Response, next: NextFunction) {
     try {
+      console.log(res.locals.role);
+      
       const { page, size, search }: any = req.query;
       const resp = await Users.listWithPagination({
         search,
